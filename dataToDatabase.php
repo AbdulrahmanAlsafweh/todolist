@@ -15,10 +15,10 @@ if(mysqli_connect_error()){
 // $deadTime=$_POST['deadTime'];
 
 //data insertion
-function insert($taskName,$description,$deadTime){
+function insert($taskName,$description,$deadTime,$Emailu){
     global $con;
-$sql=mysqli_prepare($con,"insert into `todo` (`taskName`,`description`,`deadTime`,`deleted`,`CreatedBy`) Values (?,?,?'false',?)");
-mysqli_stmt_bind_param($sql,"ssss",$taskName,$description,$deadTime,$Emailu);
-mysqli_stmt_execute($sql);
+    $sql = mysqli_prepare($con, "INSERT INTO `todo` (`taskName`, `description`, `deadTime`, `deleted`, `CreatedBy`) VALUES (?, ?, ?, 'false', ?)");
+    mysqli_stmt_bind_param($sql, "ssss", $taskName, $description, $deadTime, $Emailu);
+    mysqli_stmt_execute($sql);
 }
 ?>

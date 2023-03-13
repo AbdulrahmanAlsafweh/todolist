@@ -9,31 +9,62 @@
 <body>
     <!-- The DropDown MEnu -->
 
+
+
+
+
 <label for="User">Select User</label>
 <select name="UserName" id="User">
-<?php
+    <?php
+        // sessionstart
+        session_start();
 
-// sessionstart
-session_start();
+        // connection with database
 
-// connection with database
+        $Host_name='localhost';
+        $username='abdulrahman';
+        $DATABASE_PASS = 'Alsafweh12';
+        $DATABASE_NAME = 'todo';
 
-$Host_name='localhost';
-$username='abdulrahman';
-$DATABASE_PASS = 'Alsafweh12';
-$DATABASE_NAME = 'todo';
+        $con=mysqli_connect($Host_name,$username,$DATABASE_PASS,$DATABASE_NAME);
+        if(mysqli_connect_error()){
+            exit("error in connection with database" . $con );
+        }
 
-$con=mysqli_connect($Host_name,$username,$DATABASE_PASS,$DATABASE_NAME);
-if(mysqli_connect_error()){
-    exit("error in connection with database" . $con );
-}
-// end of connection
+        $sql=mysqli_prepare($con,"Select `Email`,`FirstName`,`LastName` from `user`");
+        mysqli_stmt_execute($sql);
+        $result=mysqli_stmt_get_result($sql);
 
-$sql=mysqli_prepare($con,"Select ")
+        while($row=mysqli_fetch_assoc($result)){
+            echo "<option value='{$row['Email']}'>{$row['FirstName']}</option>";
+        }
 
-
-?>
+        mysqli_close($con);
+    ?>
 </select>
+
+<div id="user-info"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#User").change(function() {
+            var selected_user = $(this).val();
+            if (selected_user != "") {
+                $.ajax({
+                    url: "get-user-info.php",
+                    data: {user: selected_user},
+                    success: function(result) {
+                        $("#user-info").html(result);
+                    }
+                });
+            } else {
+                $("#user-info").html("");
+            }
+        });
+    });
+</script>
+
 
 
 </body>

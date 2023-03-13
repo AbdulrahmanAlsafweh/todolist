@@ -26,7 +26,7 @@
    <table> <thead> <th>Task Name</th> <th>Description</th> <th>Dead Time</th> <th>Delete</th> </thead>
    <tbody>
     <?php
-    session_status();
+   session_start();
 
     require("dataToDatabase.php");
 //  Connection with database   

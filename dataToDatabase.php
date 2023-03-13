@@ -17,8 +17,8 @@ if(mysqli_connect_error()){
 //data insertion
 function insert($taskName,$description,$deadTime){
     global $con;
-$sql=mysqli_prepare($con,"insert into `todo` (`taskName`,`description`,`deadTime`,`deleted`) Values (?,?,?,'false')");
-mysqli_stmt_bind_param($sql,"sss",$taskName,$description,$deadTime);
+$sql=mysqli_prepare($con,"insert into `todo` (`taskName`,`description`,`deadTime`,`deleted`,`CreatedBy`) Values (?,?,?'false',?)");
+mysqli_stmt_bind_param($sql,"ssss",$taskName,$description,$deadTime,$Emailu);
 mysqli_stmt_execute($sql);
 }
 ?>

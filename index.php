@@ -8,6 +8,7 @@
 </head>
 <body>
     
+<!-- Start of form -->
     <form   action="index.php" method="post" >
        
     <input type="text" name="taskName" placeholder="Task Name" required >
@@ -18,8 +19,10 @@
 
 
     </form>
+<!-- End of Form -->
 
 
+<!-- Start of table -->
    <table> <thead> <th>Task Name</th> <th>Description</th> <th>Dead Time</th> <th>Delete</th> </thead>
    <tbody>
     <?php
@@ -42,12 +45,19 @@ if(mysqli_connect_error()){
 
 // Getting variable and pass them
 
+if( isset ($_POST['taskName'])){
 $taskName=$_POST['taskName'];
 $description=$_POST['description'];
 $deadTime=$_POST['deadTime'];
 
-insert($taskName,$description,$deadTime);
+insert($taskName,$description,$deadTime,$_SESSION['Emailu']);
+}
 
+
+  // Insert the task into database
+
+
+// Show The tasks in table
 $sql=mysqli_prepare($con,"Select `id`,`deleted`,`taskName`, `description` , `deadTime` from `todo` ");
 mysqli_stmt_execute($sql);
 $result=mysqli_stmt_get_result($sql);
@@ -63,9 +73,12 @@ while($row=mysqli_fetch_assoc($result))
 
 
 
+
 ?>
 </tbody>
-</table>
+</table><!--End Of Table -->
+
+
 
 </body>
 <!-- This script is to delete the row -->

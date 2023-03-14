@@ -15,7 +15,9 @@
     <textarea name="description"  required cols="30" rows="10" placeholder="Description"></textarea>
     <input type="date" name="deadTime" required >
     <input type="submit" value="Create">
-    <hr>
+    <a href="LoginForm.php" style="display: flex;justify-content:end">LogOut</a>
+    <hr>  
+  
 
 
     </form>
@@ -58,14 +60,14 @@ insert($taskName,$description,$deadTime,$_SESSION['Emailu']);
 
 
 // Show The tasks in table
-$sql=mysqli_prepare($con,"Select `id`,`deleted`,`taskName`, `description` , `deadTime` from `todo` ");
+$sql=mysqli_prepare($con,"Select `id`,`deleted`,`taskName`, `description` , `deadTime`,`CreatedBy` from `todo` ");
 mysqli_stmt_execute($sql);
 $result=mysqli_stmt_get_result($sql);
 
 while($row=mysqli_fetch_assoc($result))
 
 {
-  if ($row['deleted'] == "false"){
+  if ($row['deleted'] == "false" && $row['CreatedBy'] == $_SESSION['Emailu']){
     echo "<tr> <td>{$row['taskName']}</td> <td> {$row['description']} </td> <td> {$row['deadTime']} </td> <td><button class='btn btn-danger' onclick='deleteRow(this, {$row['id']})'>Delete</button></td></tr>";
 }
 
